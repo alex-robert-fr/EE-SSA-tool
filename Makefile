@@ -6,10 +6,10 @@ OBJ			= ./main.o
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) -o $@ $^
+	$(CC) -o $@ $^ -g
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $< -g
 
 clean:
 	rm -f $(OBJ) $(NAME)
