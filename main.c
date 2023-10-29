@@ -60,8 +60,6 @@ bool	check_file(char *path)
 		return (false);
 	}
 
-	printf("\x1b[38;5;47mOpen file\n"RESET);
-
 	// The file starts with "rass".
 	char	buffer[5];
 	fgets(buffer, 5, file);
@@ -94,6 +92,15 @@ void	pint_to_pchar(int *tab, int size, char *dest)
 	dest[4] = '\0';
 }
 
+int	binary_to_int(int *tab)
+{
+	int	value = 0;
+	for (int i = 0; i < 4; i++) {
+		value |= tab[i] << (i * 8);
+	}
+	return (value);
+}
+
 int	main(int argc, char *argv[])
 {
 	if (argc < 2)
@@ -104,15 +111,26 @@ int	main(int argc, char *argv[])
 	}
 	header();
 	check_file(argv[1]);
+
+	printf("\x1b[38;5;51m INFO:\n" RESET);
 	
 	FILE	*file = fopen(argv[1], "rb");
 	ssa_info	info;
 	info.magic = calloc(sizeof(char), 5);
 
-	int	tab[4];
-	read_bytes(file, 4, tab);
-	pint_to_pchar(tab, 4,info.magic);
-	printf("magic: %s\n", info.magic);
+	int	magic[4];
+	read_bytes(file, 4, magic);
+	pint_to_pchar(magic, 4,info.magic);
+	printf("\x1b[38;5;51m	* Magic: b'%s'\n" RESET, info.magic);
+
+	int major[4];
+	read_bytes(file, 4, major);
+	info.major_version = (short)binary_to_int(major);
+	int	minor[4];
+	read_bytes(file, 4, minor);
+	info.minor_version = (short)binary_to_int(minor);
+
+	printf("\x1b[38;5;51m	* SSA Version: %d.%d\n" RESET, info.major_version, info.minor_version);
 	
 	free(info.magic);
 	fclose(file);
