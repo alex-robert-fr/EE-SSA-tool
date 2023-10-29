@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "ssa-too.h"
 
 #define	bool	unsigned char
 #define	true	1
@@ -36,8 +37,6 @@ const char *get_filename_extension(const char* filename)
 
 bool	check_file(char *path)
 {
-	// file begin rass
-	
 	// Check extension
 	const char *ext = get_filename_extension(path);
 	if(!ext) {
@@ -62,6 +61,8 @@ bool	check_file(char *path)
 	}
 
 	printf("\x1b[38;5;47mOpen file\n"RESET);
+
+	// The file starts with "rass".
 	char	buffer[5];
 	fgets(buffer, 5, file);
 	if (buffer[0] != 'r' || buffer[1] != 'a' || buffer[2] != 's' || buffer[3] != 's')
@@ -75,10 +76,26 @@ bool	check_file(char *path)
 	return (true);
 }
 
+void	read_bytes(FILE *fd, int num, int *dest)
+{
+	int		c;
+
+	for (int i = 0; i < num; i++) {
+		c = fgetc(fd);
+		dest[i] = c;
+	}
+}
+
+void	pint_to_pchar(int *tab, int size, char *dest)
+{
+	for (int i = 0; i < size; i++) {
+		dest[i] = tab[i];
+	}
+	dest[4] = '\0';
+}
+
 int	main(int argc, char *argv[])
 {
-	
-	(void)argv;
 	if (argc < 2)
 	{
 		printf(COLOR_RED "Missing arguments.\n" RESET);
@@ -88,5 +105,17 @@ int	main(int argc, char *argv[])
 	header();
 	check_file(argv[1]);
 	
+	FILE	*file = fopen(argv[1], "rb");
+	ssa_info	info;
+	info.magic = calloc(sizeof(char), 5);
+
+	int	tab[4];
+	read_bytes(file, 4, tab);
+	pint_to_pchar(tab, 4,info.magic);
+	printf("magic: %s\n", info.magic);
+	
+	free(info.magic);
+	fclose(file);
+
 	return (0);
 }
