@@ -137,6 +137,11 @@ int	main(int argc, char *argv[])
 	info.start_offset = binary_to_int(start);
 	printf("\x1b[38;5;51m	* Data start offset: %i\n" RESET, info.start_offset);
 
+	int	lenght[4];
+	read_bytes(file, 4, lenght);
+	info.lenght_data = binary_to_int(lenght);
+	printf("\x1b[38;5;51m	* Data lenght: %i\n" RESET, info.lenght_data);
+
 	
 	free(info.magic);
 	fclose(file);
