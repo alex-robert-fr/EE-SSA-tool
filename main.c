@@ -101,6 +101,16 @@ int	binary_to_int(int *tab)
 	return (value);
 }
 
+void	get_char(FILE *fd, char *dest)
+{
+	int	c, i = 0;
+	do {
+		c = fgetc(fd);
+		dest[i] = c;
+		i++;
+	} while (c != '\0');
+}
+
 int	main(int argc, char *argv[])
 {
 	if (argc < 2)
@@ -142,6 +152,9 @@ int	main(int argc, char *argv[])
 	info.lenght_data = binary_to_int(lenght);
 	printf("\x1b[38;5;51m	* Data lenght: %i\n" RESET, info.lenght_data);
 
+	char path[50];
+	get_char(file, path);
+	printf("\x1b[38;5;51m	* Path: %s\n" RESET, path);
 	
 	free(info.magic);
 	fclose(file);
