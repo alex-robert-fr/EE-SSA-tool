@@ -131,6 +131,12 @@ int	main(int argc, char *argv[])
 	info.minor_version = (short)binary_to_int(minor);
 
 	printf("\x1b[38;5;51m	* SSA Version: %d.%d\n" RESET, info.major_version, info.minor_version);
+
+	int	start[4];
+	read_bytes(file, 4, start);
+	info.start_offset = binary_to_int(start);
+	printf("\x1b[38;5;51m	* Data start offset: %i\n" RESET, info.start_offset);
+
 	
 	free(info.magic);
 	fclose(file);
