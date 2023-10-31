@@ -111,6 +111,34 @@ void	get_char(FILE *fd, char *dest)
 	} while (c != '\0');
 }
 
+int	get_data(FILE *file, int offset)
+{
+	data_info	data;
+	int 	tmp[4];
+	int new_offset;
+	
+	read_bytes(file, 4, tmp);
+	data.lenght_path = binary_to_int(tmp);
+	data.path = calloc(data.lenght_path, sizeof(char));
+	get_char(file, data.path);
+	read_bytes(file, 4, tmp);
+	data.start = binary_to_int(tmp);
+	read_bytes(file, 4, tmp);
+	data.end = binary_to_int(tmp);
+	read_bytes(file, 4, tmp);
+	data.size = binary_to_int(tmp);
+
+	//printf("\n");
+	//printf("\x1b[38;5;51m	* Data lenght: %i\n" RESET, data.lenght_path);
+	//printf("\x1b[38;5;51m	* Path: %s\n" RESET, data.path);
+	//printf("\x1b[38;5;51m	* Start offset: %i\n" RESET, data.start);
+	//printf("\x1b[38;5;51m	* End offset: %i\n" RESET, data.end);
+	//printf("\x1b[38;5;51m	* Size data: %i\n" RESET, data.size);
+	printf("\x1b[38;5;47m %8i	|\x1b[38;5;48m	%-50s	|\x1b[38;5;49m	%-10i	|\x1b[38;5;50m	%-15i	|\x1b[38;5;51m	%-15i\n", data.lenght_path, data.path, data.start, data.end, data.size);
+	new_offset = offset + 4 + data.lenght_path + 4 + 4 + 4;
+	return (new_offset);
+}
+
 int	main(int argc, char *argv[])
 {
 	if (argc < 2)
@@ -147,15 +175,14 @@ int	main(int argc, char *argv[])
 	info.start_offset = binary_to_int(start);
 	printf("\x1b[38;5;51m	* Data start offset: %i\n" RESET, info.start_offset);
 
-	int	lenght[4];
-	read_bytes(file, 4, lenght);
-	info.lenght_data = binary_to_int(lenght);
-	printf("\x1b[38;5;51m	* Data lenght: %i\n" RESET, info.lenght_data);
+	printf("\x1b[38;5;47m Lenght path	|\x1b[38;5;48m	                         Path                         	|\x1b[38;5;49m	Start data	|\x1b[38;5;50m	End data	|\x1b[38;5;51m	Size data\n");
+	printf("\x1b[38;5;47m----------------\x1b[38;5;48m----------------------------------------------------------------\x1b[38;5;49m------------------------\x1b[38;5;50m------------------------\x1b[38;5;51m-------------------------\n");
+	for (info.offset = 0; info.offset < info.start_offset; (void)info.offset) {
+		info.offset = get_data(file, info.offset);
+	}
+	printf("\x1b[38;5;47m----------------\x1b[38;5;48m----------------------------------------------------------------\x1b[38;5;49m------------------------\x1b[38;5;50m------------------------\x1b[38;5;51m-------------------------\n");
+	printf("\x1b[38;5;47m Lenght path	|\x1b[38;5;48m	                         Path                         	|\x1b[38;5;49m	Start data	|\x1b[38;5;50m	End data	|\x1b[38;5;51m	Size data\n");
 
-	char path[50];
-	get_char(file, path);
-	printf("\x1b[38;5;51m	* Path: %s\n" RESET, path);
-	
 	free(info.magic);
 	fclose(file);
 
