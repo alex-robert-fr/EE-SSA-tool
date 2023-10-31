@@ -175,13 +175,21 @@ int	main(int argc, char *argv[])
 	info.start_offset = binary_to_int(start);
 	printf("\x1b[38;5;51m	* Data start offset: %i\n" RESET, info.start_offset);
 
-	printf("\x1b[38;5;47m Lenght path	|\x1b[38;5;48m	                         Path                         	|\x1b[38;5;49m	Start data	|\x1b[38;5;50m	End data	|\x1b[38;5;51m	Size data\n");
-	printf("\x1b[38;5;47m----------------\x1b[38;5;48m----------------------------------------------------------------\x1b[38;5;49m------------------------\x1b[38;5;50m------------------------\x1b[38;5;51m-------------------------\n");
-	for (info.offset = 0; info.offset < info.start_offset; (void)info.offset) {
-		info.offset = get_data(file, info.offset);
+	char	display_list;
+	printf("\n\x1b[38;5;47m Would you like to display the file list (Y/n) ? " RESET);
+	scanf("%c", &display_list);
+
+	if (display_list == 'Y' || display_list == 'y' || display_list == '\n') {
+		printf("\x1b[38;5;47m Lenght path	|\x1b[38;5;48m	                         Path                         	|\x1b[38;5;49m	Start data	|\x1b[38;5;50m	End data	|\x1b[38;5;51m	Size data\n");
+		printf("\x1b[38;5;47m----------------\x1b[38;5;48m----------------------------------------------------------------\x1b[38;5;49m------------------------\x1b[38;5;50m------------------------\x1b[38;5;51m-------------------------\n");
+		for (info.offset = 0; info.offset < info.start_offset; (void)info.offset) {
+			info.offset = get_data(file, info.offset);
+		}
+		printf("\x1b[38;5;47m----------------\x1b[38;5;48m----------------------------------------------------------------\x1b[38;5;49m------------------------\x1b[38;5;50m------------------------\x1b[38;5;51m-------------------------\n");
+		printf("\x1b[38;5;47m Lenght path	|\x1b[38;5;48m	                         Path                         	|\x1b[38;5;49m	Start data	|\x1b[38;5;50m	End data	|\x1b[38;5;51m	Size data\n");
+	} else {
+		printf("non");
 	}
-	printf("\x1b[38;5;47m----------------\x1b[38;5;48m----------------------------------------------------------------\x1b[38;5;49m------------------------\x1b[38;5;50m------------------------\x1b[38;5;51m-------------------------\n");
-	printf("\x1b[38;5;47m Lenght path	|\x1b[38;5;48m	                         Path                         	|\x1b[38;5;49m	Start data	|\x1b[38;5;50m	End data	|\x1b[38;5;51m	Size data\n");
 
 	free(info.magic);
 	fclose(file);
