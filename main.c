@@ -180,7 +180,7 @@ int	main(int argc, char *argv[])
 	scanf("%c", &display_list);
 
 	if (display_list == 'Y' || display_list == 'y' || display_list == '\n') {
-		printf("\x1b[38;5;47m Lenght path	|\x1b[38;5;48m	                         Path                         	|\x1b[38;5;49m	Start data	|\x1b[38;5;50m	End data	|\x1b[38;5;51m	Size data\n");
+		printf("\n\x1b[38;5;47m Lenght path	|\x1b[38;5;48m	                         Path                         	|\x1b[38;5;49m	Start data	|\x1b[38;5;50m	End data	|\x1b[38;5;51m	Size data\n");
 		printf("\x1b[38;5;47m----------------\x1b[38;5;48m----------------------------------------------------------------\x1b[38;5;49m------------------------\x1b[38;5;50m------------------------\x1b[38;5;51m-------------------------\n");
 		for (info.offset = 0; info.offset < info.start_offset; (void)info.offset) {
 			info.offset = get_data(file, info.offset);
