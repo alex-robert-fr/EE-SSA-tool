@@ -5,8 +5,8 @@
 *C utility under development for handling Empire Earth SSA files under Linux. Currently, header retrieval is supported. Stay tuned for additional features!*
 
 <p align="center">
-    <img src="./imgs/screen01.png" alt="menu" width="500"/>
-    <img src="./imgs/screen02.png" alt="list" width="500"/>
+    <img src="./imgs/screen01.png" alt="menu" width="1000"/>
+    <img src="./imgs/screen02.png" alt="list" width="1000"/>
 </p>
 
 ## Compilation et exécution / *Compilation and Execution*
